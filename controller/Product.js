@@ -23,10 +23,13 @@ exports.fetchAllProducts = async (req,res) =>{
   // pagination = {_page:1, _limit=10}  // _page=1&_limit=10
 
   // We have to try with multiple categories and brands after change in front-end
+  let condition={};
+  if(!req.query.admin){
+    condition.deleted = {$ne:true};
+  }
 
-
-    let query = Product.find({deleted:{$ne:true}}); // it is query of MongoDb(dont show deleted products)
-    let totalProductsQuery=Product.find({deleted:{$ne:true}});
+    let query = Product.find(condition); // it is query of MongoDb(don't show deleted products)
+    let totalProductsQuery=Product.find(condition);
     // below order matters
     if(req.query.category){
         query = query.find({category: req.query.category});
