@@ -25,8 +25,8 @@ exports.fetchAllProducts = async (req,res) =>{
   // We have to try with multiple categories and brands after change in front-end
 
 
-    let query = Product.find({});
-    let totalProductsQuery=Product.find({});
+    let query = Product.find({deleted:{$ne:true}}); // it is query of MongoDb(dont show deleted products)
+    let totalProductsQuery=Product.find({deleted:{$ne:true}});
     // below order matters
     if(req.query.category){
         query = query.find({category: req.query.category});
