@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 
-const productScheme = new Schema({
+const productSchema = new Schema({
     title:{type: String, required: true, unique:[true,'Product Already existed with this Name']},
     description:{type: String, required: true},
     price:{type: Number, min:[1 , 'Wrong min price'], max:[100000, 'Wrong maximum price']},
@@ -18,14 +18,14 @@ const productScheme = new Schema({
 
 })
 // create virtual field fro ._id b/c i am using "id" not "_id"
-const virtual = productScheme.virtual('id');
+const virtual = productSchema.virtual('id');
 virtual.get(function(){
     return this._id;
 })
-productScheme.set('toJSON',{
+productSchema.set('toJSON',{
     virtuals:true,
     versionKey:false,
     transform: function(doc,ret){delete ret._id}
 })
 
-exports.Product = mongoose.model("Product", productScheme);  // exporting model->productSchema
+exports.Product = mongoose.model("Product", productSchema);  // exporting model->productSchema
