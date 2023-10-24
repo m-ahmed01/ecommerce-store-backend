@@ -19,11 +19,12 @@ const userSchema = new Schema({
             message: props => `${props.value} is not a valid email address!`
         }
     },
-    password:{type: String, required: true},
+    password:{type: Buffer, required: true},
     role:{type: String, required: true, default:'user'},
     addresses:{type: [Schema.Types.Mixed]},
     name:{type: String},
-    orders:{type: [Schema.Types.Mixed]}
+    // orders:{type: [Schema.Types.Mixed]},
+    salt: Buffer
 });
 
 const virtual = userSchema.virtual('id');
