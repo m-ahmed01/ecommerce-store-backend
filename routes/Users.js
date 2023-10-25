@@ -8,7 +8,7 @@ const router = express.Router();
 
 //  /users is already added in base path
 
-router.get('/:id', fetchUserById);
+router.get('/own', fetchUserById);
 router.patch('/:id', updateUser);
       
 

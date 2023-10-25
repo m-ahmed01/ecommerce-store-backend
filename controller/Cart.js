@@ -2,9 +2,9 @@
 const { Cart } = require("../model/Cart");
 
 exports.fetchCartByUser = async (req,res) =>{
-    const {user} = req.query;
+    const {id} = req.user;
     try{
-        const cartItems = await Cart.find({user:user})
+        const cartItems = await Cart.find({user:id})
         // .populate('user')
         .populate('product'); // use populate to get the full details of user and product
         res.status(200).json(cartItems);
@@ -17,7 +17,8 @@ exports.fetchCartByUser = async (req,res) =>{
 
 
 exports.addToCart = async (req,res) =>{
-    const cart = new Cart(req.body); // came from frontEnd
+    const {id} = req.user;
+    const cart = new Cart({...req.body,user:id} ); // came from frontEnd
     try{
 
         const doc = await cart.save();
