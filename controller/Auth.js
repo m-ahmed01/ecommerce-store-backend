@@ -16,7 +16,7 @@ exports.createUser = async (req,res) =>{
                 res.status(400).json(err);
             }else{
                 const token = jwt.sign(sanitizeUser(doc), SECRET_KEY);
-                res.cookie('jwt', token, { expires: new Date(Date.now() + 3600000 ), httpOnly: true }).status(201).json(token); // cookie remain valid till one hour
+                res.cookie('jwt', token, { expires: new Date(Date.now() + 3600000 ), httpOnly: true }).status(201).json({id: doc.id, role: doc.role}); // cookie remain valid till one hour
             }
         });
         })
@@ -55,7 +55,12 @@ exports.loginUser = async (req,res) =>{
 
 }
 
-exports.checkUser = async (req,res) =>{
-    res.json({status:'success',user: req.user});
+exports.checkAuth = async (req,res) =>{
+    if (req.user){
+
+        res.json(req.user);
+    }else{
+        res.sendStatus(401);
+    }
 
 }
